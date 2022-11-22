@@ -1,14 +1,15 @@
 program example
   implicit none
-  
+
   real              :: startTime, finishTime
   character(len=32) :: argument1
   character(len=32) :: argument2
   integer           :: multiplier  = 1
   logical           :: colMajorFlag = .true.
-  
-  
+
+
   ! configuration of this benchmark from command line args
+  
   if (command_argument_count() > 1) then
 
     ! size parameter
@@ -17,7 +18,7 @@ program example
       read (argument2,'(I10)') multiplier
       print '("Size = ",i10)', multiplier
     end if
-     
+
     call get_command_argument(2, argument1)
 
     ! process arguments
@@ -25,20 +26,19 @@ program example
       case ('-c', '--column')
         colMajorFlag = .true.
         print '("Column-major mode.")'
-        call go()
+        call benchmark()
         stop
 
       case ('-r', '--row')
         colMajorFlag = .false.
         print '("Row-major mode.")'
-        call go()
+        call benchmark()
         stop
-          
+
       case default
         call print_help()
         stop
       end select
-
 
   else
     call print_help()
@@ -46,17 +46,18 @@ program example
 
 contains
 
-    subroutine go()
+    subroutine benchmark()
       call cpu_time(startTime)
-
       ! code to test
       call traverse(colMajorFlag, multiplier)
-  
       call cpu_time(finishTime)
-
+      ! report results for PlainSecondsLog
       print '(f6.3)', (finishTime - startTime)
-    end subroutine go
+    end subroutine benchmark
 
+    ! Create a square array, fill it with data
+    ! then compute an averaging stencil over it
+    ! in either row-major or column-major order
     subroutine traverse(colMajorFlag, multiplier)
       logical                :: colMajorFlag
       integer                :: multiplier
@@ -66,7 +67,7 @@ contains
 
       n = 10000 * multiplier
       allocate (x(n, n))
-      
+
       ! Fill up array with some data
       do i = 1, n
          do j = 1, n
@@ -90,6 +91,7 @@ contains
 
     end subroutine traverse
 
+    ! Help routine
     subroutine print_help()
         print '(a, /)', 'example benchmark <option> [multiplier]'
         print '(a, /)', 'command-line options:'
@@ -98,5 +100,5 @@ contains
         print '(a, /)', '  -h, --help        print usage information and exit'
         print '(a, /)', 'e.g., example benchmark -r 10'
     end subroutine print_help
-  
+
 end program example
