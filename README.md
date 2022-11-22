@@ -4,7 +4,7 @@ Example using ReBench with performance monitoring in Fortran
 # Requires
 - Python
 - pip
-- gfortran (or some other Fortran compile)
+- gfortran (or some other Fortran compiler)
 
 # Installation
 Install [ReBench](https://rebench.readthedocs.io/en/latest/):
