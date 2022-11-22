@@ -47,14 +47,14 @@ program example
 contains
 
     subroutine go()
-      ! Timing section
       call cpu_time(startTime)
 
       ! code to test
       call traverse(colMajorFlag, multiplier)
   
       call cpu_time(finishTime)
-      print '("Time = ",f6.3, " seconds.")', (finishTime - startTime)
+
+      print '(f6.3)', (finishTime - startTime)
     end subroutine go
 
     subroutine traverse(colMajorFlag, multiplier)
