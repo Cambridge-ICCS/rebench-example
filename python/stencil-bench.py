@@ -11,9 +11,7 @@ def traverse(order: str, multiplier: int):
     `order` must be one of `row` or `column`.
     """
 
-    #n = 10000 * multiplier
-    #n = 2000 * multiplier
-    n = 500 * multiplier
+    n = 1000 * multiplier
     x = [[i*n+j for j in range(0, n)] for i in range(0, n)]
     if order == "column":
         for i in range(1, n-1):
